@@ -80,7 +80,7 @@ def isBlocked(ip):
 def get_public_salt(username):
     data=hash_mp(username)
     # print()
-    # 修改:+.encode('utf-8') data 不知道为什么是str 改成byte 就行
+    # 修改:+.encode('utf-8') data 不知道为什么是str 改成byte就行
     return global_saltgen_aes.encrypt(data.encode('utf-8'))
 
 
