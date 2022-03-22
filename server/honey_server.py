@@ -53,6 +53,7 @@ def hash_mp(mp):
     h = SHA256.new()
     if not isinstance(mp, bytes):
         mp = mp.encode('utf-8')
+
     h.update(mp)
     return h.hexdigest()[:32]
 
@@ -77,7 +78,10 @@ def isBlocked(ip):
 
 
 def get_public_salt(username):
-    return global_saltgen_aes.encrypt(hash_mp(username))
+    data=hash_mp(username)
+    # print()
+    # 修改:+.encode('utf-8') data 不知道为什么是str 改成byte 就行
+    return global_saltgen_aes.encrypt(data.encode('utf-8'))
 
 
 class IPs(db.Model):
@@ -138,15 +142,19 @@ def Register(username):
     if not username or not isEmail(username):
         print("<%s> is not a valid Email!" % (username))
         return "Sorry Not Valid Email"
+    print('register-name:'+username)
     u = tempUser.query.filter_by(username=username).first()
     if not u:
         u = tempUser(username=username)
     u.save()
+
     return u.email_token
 
 
 def ValidateEmail(username, email_token):
     u = tempUser.query.filter_by(username=username).first()
+    # print(username,email_token)
+    print(tempUser.query.filter_by().all())
     if u and u.email_token == email_token:
         U = User.query.filter_by(username=username).first()
         if U:
