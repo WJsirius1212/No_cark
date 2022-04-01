@@ -276,7 +276,7 @@ class HoneyVault:
 
 
 # ----------------------------------------------------------------------
-
+# 作者的测试代码 不用看 只用看vault class
 def main():
     if len(sys.argv) < 5 or sys.argv[0] in ['-h', '--help']:
         print('''Taste the HoneyVault1.1 - a New Password Encrypting paradigm! 

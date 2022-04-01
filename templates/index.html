@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>呃呃呃呃呃？</title>
+  </head>
+  <body>
+    <div>懒得写样式 凑合看吧就</div>
+
+    <div>
+      addpassword
+      <br />
+      <label>domain<input id="domain" placeholder="domain" /></label>
+      <br />
+      <label>password<input id="password" placeholder="password" /></label>
+      <br />
+
+      <label>masterkey<input id="masterkey" placeholder="masterkey" /></label>
+      <br />
+      <span>dynamic security skin</span>
+      <div id="example_decoy"></div>
+      <button id="testmk">testmk</button>
+      <button id="confirmmk" disabled="true">confirmmk</button>
+    </div>
+
+    <div>
+        getpassword
+        <br />
+        <label>domain<input id="domain_get" placeholder="domain" /></label>
+        <br />
+        <label>masterkey<input id="masterkey_get" placeholder="masterkey" /></label>
+        <br />
+        <div id="get_password"></div>
+        <button id="getpw">getpw</button>
+      </div>
+
+  </body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+
+    
+
+        document.getElementById("testmk").addEventListener("click", (e)=>{
+        const dm=document.getElementById('domain').value;
+        const pw=document.getElementById('password').value;
+        const mk=document.getElementById('masterkey').value;
+        console.log(mk);
+        // console.log(document.getElementById("testmk").disabled)
+        document.getElementById("testmk").disabled=true;
+        if(dm&&pw&&mk){
+            axios.post('http://127.0.0.1:1212/addpassword',{'password':pw,'domain':dm,'masterkey':mk,'confirm':0})
+            .then((res)=>{
+            console.log(res.data)
+            document.getElementById("example_decoy").textContent=res.data;
+            document.getElementById("confirmmk").disabled=false;
+
+            })
+        }}
+        );
+
+        document.getElementById("confirmmk").addEventListener("click", (e)=>{
+
+        const dm=document.getElementById('domain').value;
+        const pw=document.getElementById('password').value;
+        const mk=document.getElementById('masterkey').value;
+        console.log(mk);
+        // console.log(document.getElementById("testmk").disabled)
+        document.getElementById("confirmmk").disabled=true;
+        if(dm&&pw&&mk){
+            axios.post('http://127.0.0.1:1212/addpassword',{'password':pw,'domain':dm,'masterkey':mk,'confirm':1})
+            .then((res)=>{
+            console.log(res.data)
+            document.getElementById("example_decoy").textContent='successfully saved.';
+            document.getElementById("testmk").disabled=false;
+
+            })
+        }
+
+    });
+
+    document.getElementById("getpw").addEventListener("click", (e)=>{
+        const dm=document.getElementById('domain_get').value;
+        const mk=document.getElementById('masterkey_get').value;
+        console.log(mk);
+        document.getElementById("getpw").disabled=true;
+        if(dm&&mk){
+            axios.post('http://127.0.0.1:1212/getpassword',{'domain':dm,'masterkey':mk})
+            .then((res)=>{
+            console.log(res.data)
+            document.getElementById("get_password").textContent=JSON.stringify(res.data);
+            document.getElementById("getpw").disabled=false;
+
+            })
+        }}
+        );
+  </script>
+</html>
